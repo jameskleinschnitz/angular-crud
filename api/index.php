@@ -1,8 +1,11 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-require 'Slim/Slim.php';
+require '../vendor/autoload.php';
 
-$app = new Slim();
+$app = new \Slim\Slim();
+
 $app->get('/users', 'getUsers');
 $app->get('/users/:id', 'getUser');
 $app->post('/add_user', 'addUser');
@@ -92,10 +95,10 @@ function deleteUser($id) {
 }
 
 function getConnection() {
-	$dbhost="127.0.0.1";
+	$dbhost="localhost";
 	$dbuser="root";
-	$dbpass="";
-	$dbname="angular_tutorial";
+	$dbpass="root";
+	$dbname="angular_crud";
 	$dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);	
 	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	return $dbh;
