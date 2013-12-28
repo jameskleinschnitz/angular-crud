@@ -13,6 +13,9 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "*"
+    "bootstrap": "*",
+    "angular": "*",
+    "angular-route": "*",
+    "angular-bootstrap": "*"
   }
 }
