@@ -1,4 +1,4 @@
-angular.module('CrudApp', []).
+angular.module('CrudApp', ['ngRoute']).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
       when('/', {templateUrl: 'assets/tpl/lists.html', controller: ListCtrl}).
