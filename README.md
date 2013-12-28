@@ -7,8 +7,9 @@ A small CRUD application using AngularJS and Slim PHP framework.
   * <a href="http://nodejs.org/">NodeJS</a>
   * <a href="http://bower.io/">Bower</a>
   * <a href="http://getcomposer.org/">Composer</a>
-  * <a href="http://angularjs.org/">AngularJS</a>
-  * <a href="http://www.slimframework.com/">Slim Framework</a>
+  * <a href="http://angularjs.org/">AngularJS</a> (Installed via Bower)
+  * <a href="http://angular-ui.github.io/bootstrap/">AngularJS UI</a> (Installed via Bower)
+  * <a href="http://www.slimframework.com/">Slim Framework</a> (Installed via Composer)
 
 ## Installation
 
