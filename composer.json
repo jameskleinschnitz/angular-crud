@@ -5,7 +5,8 @@
 
     "scripts" : {
         "post-install-cmd" : [
-            "bower install"
+            "bower install",
+            "lessc -x bower_components/bootstrap/less/bootstrap.less assets/css/bootstrap.min.css"
         ]
     }
 }

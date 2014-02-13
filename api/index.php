@@ -42,7 +42,7 @@ function getUser($id) {
 }
 
 function addUser() {
-	$request = Slim::getInstance()->request();
+	$request = \Slim\Slim::getInstance()->request();
 	$user = json_decode($request->getBody());
 	$sql = "INSERT INTO users (username, first_name, last_name, address) VALUES (:username, :first_name, :last_name, :address)";
 	try {
@@ -62,7 +62,7 @@ function addUser() {
 }
 
 function updateUser($id) {
-	$request = Slim::getInstance()->request();
+	$request = \Slim\Slim::getInstance()->request();
 	$user = json_decode($request->getBody());
 	$sql = "UPDATE users SET username=:username, first_name=:first_name, last_name=:last_name, address=:address WHERE id=:id";
 	try {
