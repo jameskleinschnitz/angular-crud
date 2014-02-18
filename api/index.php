@@ -97,7 +97,7 @@ function deleteUser($id) {
 function getConnection() {
 	$dbhost="localhost";
 	$dbuser="root";
-	$dbpass="root";
+	$dbpass="ROOT";
 	$dbname="angular_crud";
 	$dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);	
 	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

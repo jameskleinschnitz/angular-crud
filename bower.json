@@ -16,6 +16,7 @@
     "bootstrap": "*",
     "angular": "*",
     "angular-route": "*",
-    "angular-bootstrap": "*"
+    "angular-bootstrap": "*",
+    "angular-notify-toaster": "*"
   }
 }

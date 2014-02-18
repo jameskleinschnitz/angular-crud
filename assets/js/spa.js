@@ -1,4 +1,4 @@
-angular.module('SPApp', ['ngRoute','ui.bootstrap','ui.bootstrap.tpls']).
+angular.module('SPApp', ['ngRoute','ui.bootstrap','ui.bootstrap.tpls','toaster']).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
       when('/', {templateUrl: 'assets/tpl/spa.html', controller: SpaCtrl}).
@@ -7,16 +7,21 @@ angular.module('SPApp', ['ngRoute','ui.bootstrap','ui.bootstrap.tpls']).
       otherwise({redirectTo: '/'});
 }]);
 
-function SpaCtrl($scope, $http, $modal, $log) {
-  $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+// toaster.pop('success', "title", "text");
+// toaster.pop('error', "title", "text");
+// toaster.pop('warning', "title", "text");
+// toaster.pop('note', "title", "text");
+        
+function SpaCtrl($scope, $http, $modal, $log, toaster) {
+  $scope.master = {};
 
   $scope.getUsers = function () {
     $http.get('api/users').success(function(data) {
       $scope.users = data;
+      toaster.pop('note', "ShaBam!", "data loaded");
     });
   }
 
-  $scope.items = ['item1', 'item2', 'item3'];//TODO: remove
 
   $scope.new = function () {
 
@@ -24,51 +29,57 @@ function SpaCtrl($scope, $http, $modal, $log) {
       templateUrl: 'assets/tpl/new-modal.html',
       backdrop: false,
       scope: $scope,
-      controller: ModalInstanceCtrl,
-      resolve: {
-        items: function () {
-          return $scope.items;
-        }
-      }
+      controller: AddCtrl
     });
 
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
+    modalInstance.result.then(function (user) {
+      
+      toaster.pop('success', "New Record!", "A new record was successfully created");
+      $scope.getUsers();
     }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
+      $log.info('New Modal dismissed at: ' + new Date());
     });
   };
 
-  $scope.edit = function () {
+  $scope.edit = function (user) {
+    $scope.user = user;
 
     var modalInstance = $modal.open({
       templateUrl: 'assets/tpl/edit-modal.html',
       backdrop: false,
       scope: $scope,
-      controller: ModalInstanceCtrl,
+      controller: EditCtrl,
       resolve: {
-        items: function () {
-          return $scope.items;
+        user: function () {
+          return $scope.user;
         }
       }
     });
 
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
+    modalInstance.result.then(function (user) {
+        if (user === "deleted") {
+            toaster.pop('error', "GoodBye!", "Record has been deleted");
+        } else {
+            toaster.pop('success', "Updated!", "Record was successfully updated");
+        }
+      $scope.getUsers();
     }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
+      $log.info('Edit Modal dismissed at: ' + new Date());
     });
   };
 
   $scope.delete = function(user) {
-    console.log(user);
 
     var deleteUser = confirm('Are you absolutely sure you want to delete?');
     if (deleteUser) {
       $http.delete('api/users/'+user.id);
-      // $scope.activePath = $location.path('/');
+      toaster.pop('error', "GoodBye!", "Record has been deleted");
       $scope.getUsers();
     }
+  };
+  
+  $scope.reset = function() {
+    $scope.user = angular.copy($scope.master);
   };
 
   //constructor
@@ -76,38 +87,28 @@ function SpaCtrl($scope, $http, $modal, $log) {
 
 }
 
-function AddCtrl($scope, $http, $location) {
-  $scope.master = {};
-  $scope.activePath = null;
+function AddCtrl($scope, $http, $modalInstance) {
 
   $scope.add_new = function(user, AddNewForm) {
 
     $http.post('api/add_user', user).success(function(){
-      $scope.reset();
-      $scope.activePath = $location.path('/');
+      $modalInstance.close(user);
     });
 
-    $scope.reset = function() {
-      $scope.user = angular.copy($scope.master);
-    };
-
-    $scope.reset();
-
   };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
 }
 
-function EditCtrl($scope, $http, $location, $routeParams) {
-  var id = $routeParams.id;
-  $scope.activePath = null;
-
-  $http.get('api/users/'+id).success(function(data) {
-    $scope.users = data;
-  });
+function EditCtrl($scope, $http, $modalInstance, user) {
+  $scope.user = user;
+  var id = user.id;
 
   $scope.update = function(user){
     $http.put('api/users/'+id, user).success(function(data) {
-      $scope.users = data;
-      $scope.activePath = $location.path('/');
+      $modalInstance.close(data);
     });
   };
 
@@ -117,9 +118,13 @@ function EditCtrl($scope, $http, $location, $routeParams) {
     var deleteUser = confirm('Are you absolutely sure you want to delete?');
     if (deleteUser) {
       $http.delete('api/users/'+user.id);
-      $scope.activePath = $location.path('/');
+      $modalInstance.close("deleted");
     }
   };
+  
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
 }
 
 var ModalCtrl = function ($scope, $modal, $log) {
