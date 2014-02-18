@@ -1,4 +1,5 @@
 <?php 
+/*
 if(!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW']) || $_SERVER['PHP_AUTH_USER'] !== 'demo' || $_SERVER['PHP_AUTH_PW'] !== 'demo') {
  
     header("WWW-Authenticate: Basic realm=\"Secure Page\"");
@@ -6,6 +7,7 @@ if(!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW']) || $_SER
     echo 'No soup for you';
     exit;
 }
+*/
 ?>
 <!DOCTYPE html>
 <html>
