@@ -1,27 +1,39 @@
-<h2>Edit user</h2>
+<h2>Edit product</h2>
 <div class="row">
   <div class="col-md-6">
-  <form novalidate ng-repeat="user in users" name="AddNewForm" id="add-new-form" method="post" action="">
-    <input type="hidden" ng-model="user.id" value="{{user.id}}" />
-    <div class="form-group">
-      <label for="username">Username:</label>
-      <input class="form-control" type="text" ng-model="user.username" value="{{user.username}}" required />
-    </div>
-    <div class="form-group">
-      <label for="first_name">First name:</label>
-      <input class="form-control" type="text" ng-model="user.first_name" value="{{user.first_name}}" required />
-    </div>
-    <div class="form-group">
-      <label for="last_name">Last name:</label>
-      <input class="form-control" type="text" ng-model="user.last_name" value="{{user.last_name}}" required />
-    </div>
-    <div class="form-group">
-      <label for="address">Address:</label>
-      <input class="form-control" type="text" ng-model="user.address" value="{{user.address}}" />
-    </div>
-    <button class="btn btn-primary" ng-disabled="AddNewForm.$invalid || isUnchanged(user)" id="add-new-btn" ng-click="update(user)">Update <span class="glyphicon glyphicon-floppy-disk"></span></button>
-    <button class="btn btn-danger" ng-click="delete(user)">Delete <span class="glyphicon glyphicon-trash"></span></button>
-    <a href="#/" class="btn">Cancel</a>
-  </form>
-</div>
+      <form novalidate ng-repeat="product in products" name="AddNewForm" id="add-new-form" class="" method="post" action="">
+        <input type="hidden" ng-model="product.id" value="{{product.id}}" />
+        <div class="form-group">
+          <label for="model">Model:</label>
+          <input class="form-control" type="text" ng-model="product.model" required />
+        </div>
+        <div class="form-group">
+          <label for="brand">Brand:</label>
+          <input class="form-control" type="text" ng-model="product.brand" required />
+        </div>
+        <div class="form-group">
+          <label for="type">Type:</label>
+          <input class="form-control" type="text" ng-model="product.type" required />
+        </div>
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea class="form-control" ng-model="product.description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="features">Features:</label>
+          <textarea class="form-control" ng-model="product.features"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="image">Image:</label>
+          <input class="form-control" type="text" ng-model="product.image" />
+        </div>
+        <div class="form-group">
+          <label for="video">Video:</label>
+          <input class="form-control" type="text" ng-model="product.video" />
+        </div>
+        <button class="btn btn-primary" ng-disabled="AddNewForm.$invalid || isUnchanged(product)" id="add-new-btn" ng-click="update(product)">Update <span class="glyphicon glyphicon-floppy-disk"></span></button>
+        <button class="btn btn-danger" ng-click="delete(product)">Delete <span class="glyphicon glyphicon-trash"></span></button>
+        <a href="#/" class="btn">Cancel</a>
+      </form>
+  </div>
 </div>

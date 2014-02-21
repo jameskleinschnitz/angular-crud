@@ -9,25 +9,24 @@
     </div>
 </div>
 
-<h2>Users</h2>
+<h2>Products</h2>
 <table class="table table-condensed">
   <thead>
     <tr>
-      <th>Username</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Address</th>
-      <th>Options</th>
+      <th>Model</th>
+      <th>Brand</th>
+      <th>Type</th>
+      <th>Image</th>
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="user in users">
-      <td>{{user.username}}</td>
-      <td>{{user.first_name}}</td>
-      <td>{{user.last_name}}</td>
-      <td>{{user.address}}</td>
-      <td><a href="#/edit/{{user.id}}" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i></button></td>
+    <tr ng-repeat="product in products">
+      <td>{{product.model}}</td>
+      <td>{{product.brand}}</td>
+      <td>{{product.type}}</td>
+      <td>{{product.image}}</td>
+      <td><a href="#/edit/{{product.id}}" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i></button></td>
     </tr>
   </tbody>
 </table>
-<a class="btn btn-primary" href="#/add-user">Add New User</a>
+<a class="btn btn-primary" href="#/add-products">Add New Product</a>

@@ -6,89 +6,96 @@ require '../vendor/autoload.php';
 
 $app = new \Slim\Slim();
 
-$app->get('/users', 'getUsers');
-$app->get('/users/:id', 'getUser');
-$app->post('/add_user', 'addUser');
-$app->put('/users/:id', 'updateUser');
-$app->delete('/users/:id', 'deleteUser');
+$app->get('/products', 'getProducts');
+$app->get('/product/:id', 'getProduct');
+$app->post('/add_product', 'addProduct');
+$app->put('/products/:id', 'updateProduct');
+$app->delete('/products/:id', 'deleteProduct');
 
 
 $app->run();
 
-function getUsers() {
-	$sql = "select * FROM users ORDER BY id";
+function getProducts() {
+	$sql = "select * FROM products ORDER BY id";
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);  
-		$wines = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$products = $stmt->fetchAll(PDO::FETCH_OBJ);
 		$db = null;
-		echo json_encode($wines);
+		echo json_encode($products);
 	} catch(PDOException $e) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
 
-function getUser($id) {
-	$sql = "select * FROM users WHERE id=".$id." ORDER BY id";
+function getProduct($id) {
+	$sql = "select * FROM products WHERE id=".$id." ORDER BY id";
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);  
-		$wines = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$products = $stmt->fetchAll(PDO::FETCH_OBJ);
 		$db = null;
-		echo json_encode($wines);
+		echo json_encode($products);
 	} catch(PDOException $e) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
 
-function addUser() {
+function addProduct() {
 	$request = \Slim\Slim::getInstance()->request();
-	$user = json_decode($request->getBody());
-	$sql = "INSERT INTO users (username, first_name, last_name, address) VALUES (:username, :first_name, :last_name, :address)";
+	$product = json_decode($request->getBody());
+	$sql = "INSERT INTO products (model, brand, type, description, features, image, video) VALUES (:model, :brand, :type, :description, :features, :image, :video)";
 	try {
 		$db = getConnection();
 		$stmt = $db->prepare($sql);  
-		$stmt->bindParam("username", $user->username);
-		$stmt->bindParam("first_name", $user->first_name);
-		$stmt->bindParam("last_name", $user->last_name);
-		$stmt->bindParam("address", $user->address);
+		$stmt->bindParam("model", $product->model);
+		$stmt->bindParam("brand", $product->brand);
+		$stmt->bindParam("type", $product->type);
+		$stmt->bindParam("description", $product->description);
+		$stmt->bindParam("features", $product->features);
+		$stmt->bindParam("image", $product->image);
+		$stmt->bindParam("video", $product->video);
 		$stmt->execute();
-		$user->id = $db->lastInsertId();
+		$product->id = $db->lastInsertId();
 		$db = null;
-		echo json_encode($user); 
+		echo json_encode($product); 
 	} catch(PDOException $e) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
 
-function updateUser($id) {
+function updateProduct($id) {
 	$request = \Slim\Slim::getInstance()->request();
-	$user = json_decode($request->getBody());
-	$sql = "UPDATE users SET username=:username, first_name=:first_name, last_name=:last_name, address=:address WHERE id=:id";
+	$product = json_decode($request->getBody());
+	$sql = "UPDATE products SET model=:model, brand=:brand, type=:type, description=:description, features=:features, image=:image, video=:video WHERE id=:id";
 	try {
 		$db = getConnection();
 		$stmt = $db->prepare($sql);  
-		$stmt->bindParam("username", $user->username);
-		$stmt->bindParam("first_name", $user->first_name);
-		$stmt->bindParam("last_name", $user->last_name);
-		$stmt->bindParam("address", $user->address);
+		$stmt->bindParam("model", $product->model);
+		$stmt->bindParam("brand", $product->brand);
+		$stmt->bindParam("type", $product->type);
+		$stmt->bindParam("description", $product->description);
+		$stmt->bindParam("features", $product->features);
+		$stmt->bindParam("image", $product->image);
+		$stmt->bindParam("video", $product->video);
 		$stmt->bindParam("id", $id);
 		$stmt->execute();
 		$db = null;
-		echo json_encode($user); 
+		echo json_encode($product); 
 	} catch(PDOException $e) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
 
-function deleteUser($id) {
-	$sql = "DELETE FROM users WHERE id=".$id;
+function deleteProduct($id) {
+	$sql = "DELETE FROM products WHERE id=".$id;
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);  
-		$wines = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$products = $stmt->fetchAll(PDO::FETCH_OBJ);
 		$db = null;
-		echo json_encode($wines);
+// 		echo json_encode($products);
+		echo '{"success":{"text":product deleted}}';
 	} catch(PDOException $e) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
